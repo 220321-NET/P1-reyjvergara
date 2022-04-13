@@ -6,4 +6,4 @@ mono_crash.*
 appsettings.json
 appsettings.Development.json
 .vscode
-.vs
+.vs/
