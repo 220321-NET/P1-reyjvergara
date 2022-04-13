@@ -1,0 +1,8 @@
+connectionString.txt
+bin/
+obj/
+*.user
+mono_crash.*
+appsettings.json
+appsettings.Development.json
+.vscodec
