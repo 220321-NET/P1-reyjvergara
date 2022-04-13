@@ -5,4 +5,5 @@ obj/
 mono_crash.*
 appsettings.json
 appsettings.Development.json
-.vscodec
+.vscode
+.vs
