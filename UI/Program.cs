@@ -1,18 +1,12 @@
-﻿using DL;
-using BL;
-
-namespace FumoAlgo
+﻿namespace FumoAlgo
 {
     class Project0{
         static void Main(String[] args)
         {
-            string connectionString = File.ReadAllText("./connectionString.txt");
 
-            //Dependency injection
-            DBRepository repo = new DBRepository(connectionString);
-            FABL bl = new FABL(repo);
+            //FABL bl = new FABL(repo);
             Console.WriteLine("Welcome to the project");
-            FumoAlgoMenu FAMenu = new FumoAlgoMenu(bl);
+            FumoAlgoMenu FAMenu = new FumoAlgoMenu();
             FAMenu.MainMenuStart();
         }
         

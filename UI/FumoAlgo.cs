@@ -2,7 +2,6 @@
 // enclose the entire file
 using Models;
 using System.ComponentModel.DataAnnotations;
-using BL;
 namespace FumoAlgo;
 
 // class is a type
@@ -13,14 +12,8 @@ namespace FumoAlgo;
 
 public class FumoAlgoMenu
 {
-    // blueprint for the menu
-    // method defines behavior
-    private readonly FABL _bl;
 
-    public FumoAlgoMenu(FABL bl)
-    {
-        _bl = bl;
-    }
+    public FumoAlgoMenu(){ }
     public void MainMenuStart()
     {
         Console.WriteLine("Welcome to Fumo and Algorithms!\n");
@@ -80,27 +73,27 @@ public class FumoAlgoMenu
         string? name = Console.ReadLine();
         Console.WriteLine("enter in your email:");
         string? email = Console.ReadLine();
-        if(_bl.ValidateEmail(email) > 0)
-        {
-            Console.WriteLine("Email already exists...");
-            goto EnterCustomerInfo;
-        }
-        Console.WriteLine("enter password:");
-        string? password = Console.ReadLine();
+        //if(_bl.ValidateEmail(email) > 0)
+        //{
+        //    Console.WriteLine("Email already exists...");
+        //    goto EnterCustomerInfo;
+        //}
+        //Console.WriteLine("enter password:");
+        //string? password = Console.ReadLine();
 
-        try
-        {
-            customerToMake.Email = email;
-            customerToMake.Password = password;
-            customerToMake.Name = name;
-        }
-        catch(ValidationException ex)
-        {
-            Console.WriteLine(ex.Message);
-            goto EnterCustomerInfo;
-        }
+        //try
+        //{
+        //    customerToMake.Email = email;
+        //    customerToMake.Password = password;
+        //    customerToMake.Name = name;
+        //}
+        //catch(ValidationException ex)
+        //{
+        //    Console.WriteLine(ex.Message);
+        //    goto EnterCustomerInfo;
+        //}
 
-        _bl.CreateCustomer(customerToMake);
+        //_bl.CreateCustomer(customerToMake);
     }
     private void LogIn()
     {
@@ -109,85 +102,85 @@ public class FumoAlgoMenu
         string? tempEmail = Console.ReadLine().Trim() ?? "";
         Console.WriteLine("Enter your password:");
         string? tempPassW = Console.ReadLine().Trim() ?? "";
-        if(_bl.ValidateEmailPass(tempEmail, tempPassW) != 1)
-        {
-            Console.WriteLine("Incorrect Email/Password Combination entered");
-            Console.WriteLine("Would you like to sign up?");
-            do
-            {
-                Console.WriteLine("[0] Sign-Up      [1] Login");
-                int lisu_choice;
-                if(int.TryParse(Console.ReadLine().Trim(), out lisu_choice) && lisu_choice >= 0 && lisu_choice <= 1)
-                {
-                    if(lisu_choice == 0)
-                    {
-                        SignUp();
-                    }
-                    else
-                    {
-                        goto Validate;
-                    }
-                }
-                Console.WriteLine("Please enter a valid number");
-            }while(true);
-        }
-        Customer success = _bl.FindCustomer(tempEmail, tempPassW);
+        // if(_bl.ValidateEmailPass(tempEmail, tempPassW) != 1)
+        // {
+        //     Console.WriteLine("Incorrect Email/Password Combination entered");
+        //     Console.WriteLine("Would you like to sign up?");
+        //     do
+        //     {
+        //         Console.WriteLine("[0] Sign-Up      [1] Login");
+        //         int lisu_choice;
+        //         if(int.TryParse(Console.ReadLine().Trim(), out lisu_choice) && lisu_choice >= 0 && lisu_choice <= 1)
+        //         {
+        //             if(lisu_choice == 0)
+        //             {
+        //                 SignUp();
+        //             }
+        //             else
+        //             {
+        //                 goto Validate;
+        //             }
+        //         }
+        //         Console.WriteLine("Please enter a valid number");
+        //     }while(true);
+        // }
+        // Customer success = _bl.FindCustomer(tempEmail, tempPassW);
         Console.WriteLine("Log-in Successful");
-        Console.WriteLine("Logged in as " + success.Name);
-        StoreMenu(success);
+        // Console.WriteLine("Logged in as " + success.Name);
+        // StoreMenu(success);
     }
 
     private void StoreMenu(Customer customer)
     {
-        List<StoreFront> allStores = _bl.GetStoreFronts();
+        //List<StoreFront> allStores = _bl.GetStoreFronts();
         int storeChoice;
-        do
-        {
-            Console.WriteLine("Select your store:");
-            foreach(StoreFront stores in allStores)
-            {
-                Console.WriteLine($"[{stores.StoreID}] {stores.Name} : {stores.City}, {stores.State}");
-            }
-            if(int.TryParse(Console.ReadLine().Trim(), out storeChoice) && storeChoice >= 1 && storeChoice <= allStores.Count())
-            {
-                break;
-            }
-            Console.WriteLine("Please enter a valid number");
-        }while(true);
-        Console.WriteLine("\nYou selected the store " + allStores.ElementAt(storeChoice-1).Name);
-        int storeId = allStores.ElementAt(storeChoice-1).StoreID;
-        StoreInventory(customer, storeId);
+        // do
+        // {
+        //     Console.WriteLine("Select your store:");
+        //     foreach(StoreFront stores in allStores)
+        //     {
+        //         Console.WriteLine($"[{stores.StoreID}] {stores.Name} : {stores.City}, {stores.State}");
+        //     }
+        //     if(int.TryParse(Console.ReadLine().Trim(), out storeChoice) && storeChoice >= 1 && storeChoice <= allStores.Count())
+        //     {
+        //         break;
+        //     }
+        //     Console.WriteLine("Please enter a valid number");
+        // }while(true);
+        // Console.WriteLine("\nYou selected the store " + allStores.ElementAt(storeChoice-1).Name);
+        // int storeId = allStores.ElementAt(storeChoice-1).StoreID;
+       //StoreInventory(customer, storeId);
     }
 
     private void StoreInventory(Customer customer, int storeId)
     {
         Console.WriteLine("\nWelcome, here's our inventory:");
-        List<Product> storeProduct = _bl.GetStoreProducts(storeId);
+        //List<Product> storeProduct = _bl.GetStoreProducts(storeId);
         int i = 1;
-        foreach(Product sProd in storeProduct)
-        {
-            Console.WriteLine($"[{i}] {sProd.Name} {sProd.Price} Quantity: {sProd.Quantity} [PID:{sProd.ProductID}]");
-            i++;
-        }
-        Console.WriteLine(" ");
-        Console.WriteLine("Please enter your selection on what you want to buy or [12] to go back to store selection");
-        int choice;
-        do
-        {
-            if((int.TryParse(Console.ReadLine().Trim(), out choice) && choice >= 1 && choice <= storeProduct.Count()) || choice == 12)
-            {
-                break;
-            }
-            Console.WriteLine("Please enter a valid number");
-        }while(true);
+        // foreach(Product sProd in storeProduct)
+        // {
+        //     Console.WriteLine($"[{i}] {sProd.Name} {sProd.Price} Quantity: {sProd.Quantity} [PID:{sProd.ProductID}]");
+        //     i++;
+        // }
+        // Console.WriteLine(" ");
+        // Console.WriteLine("Please enter your selection on what you want to buy or [12] to go back to store selection");
+        // int choice;
+        // do
+        // {
+        //     if((int.TryParse(Console.ReadLine().Trim(), out choice) && choice >= 1 && choice <= storeProduct.Count()) || choice == 12)
+        //     {
+        //         break;
+        //     }
+        //     Console.WriteLine("Please enter a valid number");
+        // }while(true);
 
-        if(choice == 12){StoreMenu(customer);}
-        int prodID = storeProduct.ElementAt(choice-1).ProductID;
+        //if(choice == 12){StoreMenu(customer);}
+        //int prodID = storeProduct.ElementAt(choice-1).ProductID;
         // grab product instead to make a purchase with total, no name necessary
         // for now just use receipt 
         //but make a new table with total, storeID and customerID, and orderid for a primary key in ADS
         // and then make a new method called shopping cart that stores a list of items, which clears after purchase
-        MakeReceipt(customer, storeId, prodID);
+        //MakeReceipt(customer, storeId, prodID);
     }
 
     private void CartMenu(Cart sessionCart, Customer customer, int storeId)
@@ -221,7 +214,7 @@ public class FumoAlgoMenu
 
         if(choice == "Y")
         {
-            _bl.CreateReceipt(storeID, customer.Id, prodID);
+            //_bl.CreateReceipt(storeID, customer.Id, prodID);
         }
         else
         {
