@@ -11,7 +11,8 @@ public interface IFABL
     List<StoreFront> GetStoreFronts();
     List<Customer> GetAllCustomers();
     StoreFront? GetStoreByID(int storeId);
-    List<Product> GetProducts();
+    List<Product> GetStoreProducts(int storeId);
+    List<Product> GetAllProducts();
       //List<Receipt> GetReceipts();
     Product AddProduct(Product productToAdd, int quantity, int storeId);
     Customer FindCustomer(string email, string password);

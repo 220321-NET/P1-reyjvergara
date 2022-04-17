@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         {
             return _bl.GetAllCustomers();
         }
-        [HttpGet("{email}:{password}")]
+        [HttpGet("Find Customer")]
         public ActionResult<Customer> Get(string email, string password)
         {
             Customer customerToReturn = _bl.FindCustomer(email, password);

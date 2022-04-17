@@ -70,7 +70,7 @@ public class FABL : IFABL
     ///<summary>
     ///  GetProducts shows a list of all the products
     ///</summary>
-    public List<Product> GetProducts()
+    public List<Product> GetAllProducts()
     {
         return _repo.GetAllProducts();
     }

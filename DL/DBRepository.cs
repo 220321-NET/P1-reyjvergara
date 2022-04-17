@@ -129,7 +129,33 @@ public class DBRepository : IRepository
 
     public List<Product> GetAllProducts()
     {
-        throw new NotImplementedException();
+        List<Product> allProducts = new List<Product>();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new("Select * from Product", connection);
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            int id = reader.GetInt32(0);
+            string name = reader.GetString(1);
+            string description = reader.GetString(2);
+            decimal price = reader.GetDecimal(3);
+            int quantity = reader.GetInt32(4);
+            int sid = reader.GetInt32(5);
+            Product prod = new()
+            {
+                ProductID = id,
+                Price = price,
+                Name = name,
+                Description = description,
+                Quantity = quantity,
+                StoreID = sid,
+            };
+            allProducts.Add(prod);
+        }
+        reader.Close();
+        connection.Close();
+        return allProducts;
     }
 
 
