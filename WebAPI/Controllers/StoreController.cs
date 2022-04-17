@@ -41,7 +41,10 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult<StoreFront> Post([FromBody] StoreFront storeToCreate)
         {
-            return Created("api/Store", _bl.CreateStore(storeToCreate));
+            StoreFront createdStore = _bl.CreateStore(storeToCreate);
+            //List<StoreFront> stores = new List<StoreFront>();
+            
+            return Created("api/Store", createdStore);
         }
 
         // PUT api/<StoreController>/5
