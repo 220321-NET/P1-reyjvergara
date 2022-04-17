@@ -8,6 +8,8 @@ public class Customer
     private string name ="";
     private string email = "";
     private string password = "";
+
+    [Required]
     public string Name
     {
         get => name;
@@ -20,6 +22,8 @@ public class Customer
             name = value.Trim();
         }
     }
+
+    [Required]
     public string Email    
     {
         get => email;

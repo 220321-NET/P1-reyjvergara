@@ -13,7 +13,7 @@ public class DBRepository : IRepository
         _connectionString = connectionString;
     }
 
-    public void CreateStore(StoreFront newStore)
+    public StoreFront CreateStore(StoreFront newStore)
     {
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -32,9 +32,10 @@ public class DBRepository : IRepository
             Console.WriteLine(e.Message);
         }
         connection.Close();
+        return newStore;
     }
 
-    public void CreateCustomer(Customer newCustomer)
+    public Customer CreateCustomer(Customer newCustomer)
     {
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -54,9 +55,10 @@ public class DBRepository : IRepository
         }
 
         connection.Close();
+        return newCustomer;
     }
 
-    public void CreateAdmin(Admin newAdmin, int storeId)
+    public Admin CreateAdmin(Admin newAdmin, int storeId)
     {
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -77,11 +79,11 @@ public class DBRepository : IRepository
         }
 
         connection.Close();
+        return newAdmin;
     }
 
-    public void AddProduct(Product newProduct, int quantity, int storeId)
+    public Product AddProduct(Product newProduct, int quantity, int storeId)
     {
-        throw new NotImplementedException();
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
         SqlCommand cmd = new SqlCommand("Insert into Product(Name, Description, Price, Quantity, storeId) output inserted.Id Values(@name, @description, @price, @quantity, @storeId)", connection);
@@ -101,9 +103,10 @@ public class DBRepository : IRepository
             Console.WriteLine(e.Message);
         }
         connection.Close();
+        return newProduct;
     }
 
-    public void CreateReceipt(int storeId, int customerId, int productId)
+    public Receipt CreateReceipt(int storeId, int customerId, int productId)
     {
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -117,7 +120,11 @@ public class DBRepository : IRepository
         cmd.ExecuteNonQuery();
         cmd2.ExecuteNonQuery();
         connection.Close();
-        Console.WriteLine("Bought item, returning to main menu...\n");
+        Console.WriteLine("Terrible code, rework later please...\n");
+        Receipt receipt = new Receipt();
+        receipt.CustomerID = customerId;
+        receipt.StoreID = storeId;
+        return receipt;
     }
 
     public List<Product> GetAllProducts()
@@ -228,6 +235,28 @@ public class DBRepository : IRepository
 
         return allStores;
     }
+
+    public StoreFront? GetStoreByID(int storeId)
+    {
+        StoreFront storeToReturn = new StoreFront();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("Select * from StoreFront where StoreId = @storeId", connection);
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+        SqlDataReader reader = cmd.ExecuteReader();
+        if (reader.Read())
+        {
+            storeToReturn.StoreID = reader.GetInt32(0);
+            storeToReturn.Name = reader.GetString(1);
+            storeToReturn.City = reader.GetString(2);
+            storeToReturn.State = reader.GetString(3);
+            reader.Close();
+            return storeToReturn;
+        }
+        return null;
+    }
+
     public Customer FindCustomer(string email, string password)
     {
         Customer customerToReturn = new Customer();

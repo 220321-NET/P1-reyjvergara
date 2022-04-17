@@ -5,14 +5,17 @@
 /// </summary>
 public interface IFABL
 {
-  void CreateStore(StoreFront storeToCreate);
-  void CreateCustomer(Customer customerToCreate);
-  void CreateAdmin(Admin adminToCreate, int storeId);
-  List<StoreFront> GetStoreFronts();
-  List<Product> GetProducts();
-  //List<Receipt> GetReceipts();
-  void AddProduct(Product productToAdd, int quantity, int storeId);
-  void DeleteCustomer(Customer customerToDelete);
-  void DeleteProduct(Product productToDelete);
-  void DeleteStore(StoreFront storeToDelete);
+    StoreFront CreateStore(StoreFront storeToCreate);
+    Customer CreateCustomer(Customer customerToCreate);
+    Admin CreateAdmin(Admin adminToCreate, int storeId);
+    List<StoreFront> GetStoreFronts();
+    List<Customer> GetAllCustomers();
+    StoreFront? GetStoreByID(int storeId);
+    List<Product> GetProducts();
+      //List<Receipt> GetReceipts();
+    Product AddProduct(Product productToAdd, int quantity, int storeId);
+    Customer FindCustomer(string email, string password);
+    void DeleteCustomer(Customer customerToDelete);
+    void DeleteProduct(Product productToDelete);
+    void DeleteStore(StoreFront storeToDelete);
 }

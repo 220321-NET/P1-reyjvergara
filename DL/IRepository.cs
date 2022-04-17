@@ -7,7 +7,7 @@ public interface IRepository
    List<StoreFront> GetAllStoreFronts();
    List<Customer> GetAllCustomers();
 
-   void CreateStore(StoreFront storeToAdd);
+   StoreFront CreateStore(StoreFront storeToAdd);
    //void CreateProduct(Product productToAdd);
-   void CreateCustomer(Customer customerToAdd);
+   Customer CreateCustomer(Customer customerToAdd);
 }

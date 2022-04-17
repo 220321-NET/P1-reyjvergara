@@ -12,9 +12,9 @@ public class FABL : IFABL
     ///<summary>
     ///  CreateStore recieves information of a StoreFront (address, city, name) to make a store. StoreID is automatically made.
     ///</summary>
-    public void CreateStore(StoreFront storeToCreate)
+    public StoreFront CreateStore(StoreFront storeToCreate)
     {
-        _repo.CreateStore(storeToCreate);
+        return _repo.CreateStore(storeToCreate);
     }
 
     // public void CreateProduct(Product productToCreate)
@@ -25,21 +25,21 @@ public class FABL : IFABL
     ///<summary>
     ///  CreateCustomer recieves information of Customer to make one
     ///</summary>
-    public void CreateCustomer(Customer customerToCreate)
+    public Customer CreateCustomer(Customer customerToCreate)
     {
-        _repo.CreateCustomer(customerToCreate);
+        return _repo.CreateCustomer(customerToCreate);
     }
 
-    public void CreateAdmin(Admin adminToCreate, int storeId)
+    public Admin CreateAdmin(Admin adminToCreate, int storeId)
     {
-        _repo.CreateAdmin(adminToCreate, storeId);
+        return _repo.CreateAdmin(adminToCreate, storeId);
     }
     ///<summary>
     ///  CreateReceipt will be adjusted to take in total price and date, no plan for updating this project to have all product names in an order
     ///</summary>
-    public void CreateReceipt(int storeId, int customerId, int productId)
+    public Receipt CreateReceipt(int storeId, int customerId, int productId)
     {
-        _repo.CreateReceipt(storeId, customerId, productId);
+        return _repo.CreateReceipt(storeId, customerId, productId);
     }
 
 
@@ -78,9 +78,14 @@ public class FABL : IFABL
     ///<summary>
     ///  AddProduct recieves the product, wanted quantity, and desired storeID to place the product
     ///</summary>
-    public void AddProduct(Product productToAdd, int quantity, int storeId)
+    public Product AddProduct(Product productToAdd, int quantity, int storeId)
     {
-        _repo.AddProduct(productToAdd, quantity, storeId);
+        return _repo.AddProduct(productToAdd, quantity, storeId);
+    }
+
+    public StoreFront? GetStoreByID(int storeId)
+    {
+        return _repo.GetStoreByID(storeId);
     }
 
     ///<summary>

@@ -5,7 +5,8 @@ namespace WebAPI.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
-{
+{   
+
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -18,6 +19,9 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
+
+    ///<summary>
+    /// This get method returns fake weather
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
