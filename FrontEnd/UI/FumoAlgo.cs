@@ -13,11 +13,14 @@ namespace FumoAlgo;
 
 internal class FumoAlgoMenu
 {
-
-    public FumoAlgoMenu(){ }
+    private readonly HttpSerivce _httpService;
+    public FumoAlgoMenu(HttpSerivce httpSerivce)
+    {
+        _httpService = httpSerivce;
+    }
     public async Task MainMenuStart()
     {
-        Console.WriteLine("Welcome to Fumo and Algorithms!\n");
+        Console.WriteLine("Welcome to the Fumo Store.\n");
         bool exit = false;
         do{
             Console.WriteLine("Would you like to Log-in or Sign-Up?");
@@ -41,10 +44,10 @@ internal class FumoAlgoMenu
                 case 1:
                     // Log in customer
                     Console.WriteLine("Logging in...");
-                    LogIn();
+                    await LogIn();
                     break;
                 case 2:
-                    SignUp();
+                    await SignUp();
                     break;
                 case 9:
                     exit = true;
@@ -65,7 +68,7 @@ internal class FumoAlgoMenu
         }while(exit == false);
     }
 
-    private void SignUp()
+    private async Task SignUp()
     {
         
         // creating new customer data
@@ -77,29 +80,27 @@ internal class FumoAlgoMenu
         string? name = Console.ReadLine();
         Console.WriteLine("enter in your email:");
         string? email = Console.ReadLine();
-        //if(_bl.ValidateEmail(email) > 0)
-        //{
-        //    Console.WriteLine("Email already exists...");
-        //    goto EnterCustomerInfo;
-        //}
-        //Console.WriteLine("enter password:");
-        //string? password = Console.ReadLine();
 
-        //try
-        //{
-        //    customerToMake.Email = email;
-        //    customerToMake.Password = password;
-        //    customerToMake.Name = name;
-        //}
-        //catch(ValidationException ex)
-        //{
-        //    Console.WriteLine(ex.Message);
-        //    goto EnterCustomerInfo;
-        //}
+        if(await _httpService.FindEmail(email) is not null)
+        {
+            Console.WriteLine("Email already exists...");
+            goto EnterCustomerInfo;
+        }
 
-        //_bl.CreateCustomer(customerToMake);
+        Console.WriteLine("enter password:");
+        string? password = Console.ReadLine();
+
+        try
+        {
+            _httpService.CreateCustomer(name, email, password);
+        }
+        catch(ValidationException ex)
+        {
+            Console.WriteLine(ex.Message);
+            goto EnterCustomerInfo;
+        }
     }
-    private void LogIn()
+    private async Task LogIn()
     {
         Validate:
         Console.WriteLine("\nEnter your email:");

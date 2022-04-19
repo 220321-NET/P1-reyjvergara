@@ -1,3 +1,4 @@
 ﻿using FumoAlgo;
 
-await new FumoAlgoMenu().MainMenuStart();
+HttpSerivce http = new();
+await new FumoAlgoMenu(http).MainMenuStart();

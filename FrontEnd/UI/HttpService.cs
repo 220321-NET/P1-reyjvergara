@@ -1,7 +1,6 @@
 using Models;
 using System.Text;
 using System.Text.Json;
-//using System.Text.RegularExpressions;
 
 namespace FumoAlgo;
 
@@ -40,8 +39,42 @@ public class HttpSerivce
         return customers;
     }
 
-    public Customer CreateCustomer()
+    public async Task<Customer> FindEmail(string email)
     {
-        return new Customer();
+        Customer customer = new();
+        customer.Name = "temp";
+        customer.Password = "temp";
+        try
+        {
+            customer = await JsonSerializer.DeserializeAsync<Customer>(await client.GetStreamAsync("Customer/FindEmail/{email}")) ?? new Customer();
+        }
+        catch(HttpRequestException)
+        {
+            Console.WriteLine("Cant' find email right");
+        }
+        return customer;
+    }
+
+    public async void CreateCustomer(string name, string email, string password)
+    {
+        Customer newCust = new();
+        newCust.Name = name;
+        newCust.Email = email;
+        newCust.Password = password;
+        string cust = JsonSerializer.Serialize(newCust);
+        StringContent content = new StringContent(cust, UnicodeEncoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage responseMessage = await client.PostAsync("Customer/Create", content);
+        }
+        catch(HttpRequestException)
+        {
+            Console.WriteLine("Terrible execution on create customer");
+        }
+    }
+
+    public int ValidateEmail(string email)
+    {
+        return ValidateEmail(email);
     }
 }
