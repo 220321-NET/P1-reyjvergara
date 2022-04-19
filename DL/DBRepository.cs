@@ -310,15 +310,30 @@ public class DBRepository : IRepository
         return customerToReturn;
     }
 
-    public int ValidateEmail(string email)
+    public async Task<Customer> ValidateEmail(string email)
     {
+        Customer customerToTest = new Customer();
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
-        SqlCommand cmd = new SqlCommand("SELECT COUNT(*) from users where Email like @email", connection);
+        SqlCommand cmd = new SqlCommand("Select * from Users where Email = @email", connection);
         cmd.Parameters.AddWithValue("@email", email.Trim());
-        int userCount = (int) cmd.ExecuteScalar();
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        if (await reader.ReadAsync())
+        {
+            int id = reader.GetInt32(0);
+            string emailRet = reader.GetString(1);
+            string passw = reader.GetString(2);
+            string name = reader.GetString(3);
+            customerToTest.Id = id;
+            customerToTest.Email = emailRet;
+            customerToTest.Password = passw;
+            customerToTest.Name = name;
+        }
+        reader.Close();
         connection.Close();
-        return userCount;
+        /* Have something to return null like STORE*/
+        return customerToTest;
     }
 
     public int ValidateEmailPass(string email, string password)

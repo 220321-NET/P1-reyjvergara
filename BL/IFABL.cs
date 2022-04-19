@@ -32,10 +32,13 @@ public interface IFABL
     //List<Receipt> GetReceipts();
     Product AddProduct(Product productToAdd, int quantity, int storeId); 
 
+
     ///<summary>
     ///  FindCustomer is used for the login feature, checks database if email and password combination exists
     ///</summary>
     Task<Customer> FindCustomerAsync(string email, string password);
+    Task<Customer> FindCustomerByEmailAsync(string email);
+    int ValidateEmailPass(string email, string password);
     
     void DeleteCustomer(Customer customerToDelete);
     void DeleteProduct(Product productToDelete);

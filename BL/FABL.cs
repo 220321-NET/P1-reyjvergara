@@ -104,9 +104,9 @@ public class FABL : IFABL
     ///<summary>
     ///  ValidateEmail is used to see if email exists in database already
     ///</summary>
-    public int ValidateEmail(string email)
+    public async Task<Customer> FindCustomerByEmailAsync(string email)
     {
-        return _repo.ValidateEmail(email);
+        return await _repo.ValidateEmail(email);
     }
 
     public int ValidateEmailPass(string email, string password)

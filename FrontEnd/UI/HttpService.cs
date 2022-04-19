@@ -8,11 +8,11 @@ namespace FumoAlgo;
 public class HttpSerivce
 {
     private readonly string _apiBaseURL = "https://localhost:7183/api/";
-    //private HttpClient client = new HttpClient();
+    private HttpClient client = new HttpClient();
 
     public HttpSerivce()
     {
-        //client.BaseAddress = new Uri(_apiBaseURL);
+        client.BaseAddress = new Uri(_apiBaseURL);
     }
 
     public async Task<List<Customer>> GetAllCustomersAsync()
@@ -22,17 +22,13 @@ public class HttpSerivce
             Then we will send a GET request to the API endpoint
             After that, we are going to deserialize the response and 
             return it to our caller as List<StoreFront>     */
-        string url = _apiBaseURL + "Customer/GetAll";
-        HttpClient client = new HttpClient();
         try
         {
-            HttpResponseMessage response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            string responseString = await response.Content.ReadAsStringAsync();
+            //HttpResponseMessage response = await client.GetAsync(url);
+            //response.EnsureSuccessStatusCode();
+            //string responseString = await response.Content.ReadAsStringAsync();
             
-            //Console.WriteLine(responseString);
-            //Console.WriteLine(newresponseString);
-            return JsonSerializer.Deserialize<List<Customer>>(responseString) ?? new List<Customer>();
+            customers = await JsonSerializer.DeserializeAsync<List<Customer>>(await client.GetStreamAsync("Customer/GetAll")) ?? new List<Customer>();
             
             //customers = await JsonSerializer.DeserializeAsync<List<Customer>>(await response.Content.ReadAsStreamAsync())?? new List<Customer>();
             //customers = await JsonSerializer.DeserializeAsync<List<Customer>>(await client.GetStreamAsync("Customer/GetAll")) ?? new List<Customer>();

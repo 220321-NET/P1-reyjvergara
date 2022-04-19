@@ -23,6 +23,11 @@ namespace WebAPI.Controllers
             return await _bl.GetAllCustomersAsync();
         }
 
+        [HttpGet("FindEmail")]
+        public async Task<Customer> GetAsync(string email)
+        {
+            return await _bl.FindCustomerByEmailAsync(email);
+        }
 
         [HttpGet("Find")]
         public async Task<ActionResult<Customer>> GetAsync(string email, string password)
