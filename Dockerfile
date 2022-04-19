@@ -1,11 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-
+ENV ASPNETCORE_URLS=http://+:5000
 WORKDIR /app
 
 COPY . .
 
 RUN dotnet clean P1-reyjvergara.sln
-RUN dotnet publish WebAPI --configuration Debug -o ./publish
+RUN dotnet publish WebAPI --configuration Release -o ./publish
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS run
 
 WORKDIR /app
