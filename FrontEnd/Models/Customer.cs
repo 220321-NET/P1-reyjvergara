@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Models;
 
@@ -9,8 +10,8 @@ public class Customer
     private string email = "";
     private string password = "";
 
-    public int Id { get; set; }
     [Required]
+    public int Id{get;set;}
     public string Name
     {
         get => name;
@@ -20,11 +21,10 @@ public class Customer
             {
                 throw new ValidationException("Name cannot be empty");
             }
-            name = value.Trim();
+            name = value;
         }
     }
 
-    [Required]
     public string Email    
     {
         get => email;
@@ -34,7 +34,7 @@ public class Customer
             {
                 throw new ValidationException("Email cannot be empty");
             }
-            email = value.Trim();
+            email = value;
         }
     }
     public string Password
@@ -46,8 +46,14 @@ public class Customer
             {
                 throw new ValidationException("Password cannot be empty");
             }
-            password = value.Trim();
+            password = value;
         }
+    }
+
+    public override string ToString()
+    {
+        string qString = $"Id:{Id} \nName:{Name} \nEmail:{Email}";
+        return qString;
     }
     
     // public List<Receipt> OrderHistory {get; set;} = new List<Receipt>;

@@ -19,16 +19,16 @@ namespace WebAPI.Controllers
 
         // GET: api/<StoreController>
         [HttpGet]
-        public List<StoreFront> Get()
+        public async Task<List<StoreFront>> Get()
         {
-            return _bl.GetStoreFronts();
+            return await _bl.GetAllStoreFrontsAsync();
         }
 
         // GET api/<StoreController>/5
         [HttpGet("{id}")]
-        public ActionResult<StoreFront> Get(int id)
+        public async Task<ActionResult<StoreFront>> Get(int id)
         {
-            StoreFront? storeToReturn = _bl.GetStoreByID(id);
+            StoreFront? storeToReturn = await _bl.GetStoreByIDAsync(id);
             if (storeToReturn != null)
             {
                 return Ok(storeToReturn);

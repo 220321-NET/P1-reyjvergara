@@ -19,16 +19,16 @@ namespace WebAPI.Controllers
 
         // GET: api/<ProductController>
         [HttpGet]
-        public List<Product> Get()
+        public async Task<List<Product>> GetAsync()
         {
-            return _bl.GetAllProducts();
+            return await _bl.GetAllProductsAsync();
         }
 
         // GET api/<ProductController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("FindWithStoreID")]
+        public async Task<List<Product>> GetAsync(int storeId)
         {
-            return "value";
+            return await _bl.GetStoreProductsAsync(storeId);
         }
 
         // POST api/<ProductController>

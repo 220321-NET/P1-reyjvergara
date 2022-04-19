@@ -3,9 +3,9 @@ public interface IRepository
 {
    // Console.WriteLine("Welcome to Fumo and Algorithms!");
 
-   List<Product> GetAllProducts();
-   List<StoreFront> GetAllStoreFronts();
-   List<Customer> GetAllCustomers();
+   Task<List<Product>> GetAllProductsAsync();
+   Task<List<StoreFront>> GetAllStoreFrontsAsync();
+   Task<List<Customer>> GetAllCustomersAsync();
 
    StoreFront CreateStore(StoreFront storeToAdd);
    //void CreateProduct(Product productToAdd);

@@ -127,14 +127,14 @@ public class DBRepository : IRepository
         return receipt;
     }
 
-    public List<Product> GetAllProducts()
+    public async Task<List<Product>> GetAllProductsAsync()
     {
         List<Product> allProducts = new List<Product>();
-        SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
-        SqlCommand cmd = new("Select * from Product", connection);
-        SqlDataReader reader = cmd.ExecuteReader();
-        while (reader.Read())
+        using SqlCommand cmd = new("Select * from Product", connection);
+        using SqlDataReader reader = cmd.ExecuteReader();
+        while (await reader.ReadAsync())
         {
             int id = reader.GetInt32(0);
             string name = reader.GetString(1);
@@ -158,17 +158,16 @@ public class DBRepository : IRepository
         return allProducts;
     }
 
-
-    public List<Product> GetStoreProducts(int storeId)
+    public async Task<List<Product>> GetStoreProductsAsync(int storeId)
     {
         List<Product> storeProduct = new List<Product>();
-        SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
-        SqlCommand cmd = new SqlCommand("Select * from Product where StoreID = @storeId", connection);
+        using SqlCommand cmd = new SqlCommand("Select * from Product where StoreID = @storeId", connection);
         cmd.Parameters.AddWithValue("@storeId", storeId);
-        SqlDataReader reader = cmd.ExecuteReader();
+        using SqlDataReader reader = cmd.ExecuteReader();
 
-        while(reader.Read())
+        while(await reader.ReadAsync())
         {
             int id = reader.GetInt32(0);
             string name = reader.GetString(1);
@@ -192,32 +191,33 @@ public class DBRepository : IRepository
         return storeProduct;
     }
 
-    public List<Customer> GetAllCustomers()
+    public async Task<List<Customer>> GetAllCustomersAsync()
     {
         List<Customer> customerFromStore = new List<Customer>();
 
-        SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        SqlCommand cmd = new SqlCommand("Select * from Users", connection);
-        SqlDataReader reader = cmd.ExecuteReader();
+        using SqlCommand cmd = new SqlCommand("Select * from Users", connection);
+        using SqlDataReader reader = cmd.ExecuteReader();
 
-        while(reader.Read())
+        while(await reader.ReadAsync())
         {
-            int id = reader.GetInt32(0);
+            int Id = reader.GetInt32(0);
             string email = reader.GetString(1);
             string password = reader.GetString(2);
             string cname = reader.GetString(3);
 
-            Customer user = new Customer
+            Customer cus = new Customer
             {
-                Id = id,
+                Id = Id,
                 Email = email,
                 Name = cname,
                 Password = password,
             };
-            customerFromStore.Add(user);
+            customerFromStore.Add(cus);
         }
+
         reader.Close();
         connection.Close();
 
@@ -230,17 +230,17 @@ public class DBRepository : IRepository
     }
 
 
-    public List<StoreFront> GetAllStoreFronts()
+    public async Task<List<StoreFront>> GetAllStoreFrontsAsync()
     {
         List<StoreFront> allStores = new List<StoreFront>();
 
-        SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        SqlCommand cmd = new SqlCommand("Select * from StoreFront", connection);
-        SqlDataReader reader = cmd.ExecuteReader();
+        using SqlCommand cmd = new SqlCommand("Select * from StoreFront", connection);
+        using SqlDataReader reader = cmd.ExecuteReader();
 
-        while(reader.Read())
+        while(await reader.ReadAsync())
         {
             int id = reader.GetInt32(0);
             string name = reader.GetString(1);
@@ -262,7 +262,7 @@ public class DBRepository : IRepository
         return allStores;
     }
 
-    public StoreFront? GetStoreByID(int storeId)
+    public async Task<StoreFront?> GetStoreByIDAsync(int storeId)
     {
         StoreFront storeToReturn = new StoreFront();
         SqlConnection connection = new SqlConnection(_connectionString);
@@ -271,7 +271,7 @@ public class DBRepository : IRepository
         SqlCommand cmd = new SqlCommand("Select * from StoreFront where StoreId = @storeId", connection);
         cmd.Parameters.AddWithValue("@storeId", storeId);
         SqlDataReader reader = cmd.ExecuteReader();
-        if (reader.Read())
+        if (await reader.ReadAsync())
         {
             storeToReturn.StoreID = reader.GetInt32(0);
             storeToReturn.Name = reader.GetString(1);
@@ -283,7 +283,7 @@ public class DBRepository : IRepository
         return null;
     }
 
-    public Customer FindCustomer(string email, string password)
+    public async Task<Customer> FindCustomerAsync(string email, string password)
     {
         Customer customerToReturn = new Customer();
         SqlConnection connection = new SqlConnection(_connectionString);
@@ -293,7 +293,7 @@ public class DBRepository : IRepository
         cmd.Parameters.AddWithValue("@password", password.Trim());
         SqlDataReader reader = cmd.ExecuteReader();
 
-        if(reader.Read())
+        if(await reader.ReadAsync())
         {
             int id = reader.GetInt32(0);
             string emailRet = reader.GetString(1);
@@ -306,14 +306,7 @@ public class DBRepository : IRepository
         }
         reader.Close();
         connection.Close();
-        /*}
-        catch(Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-        finally{
-            return customerToReturn;
-        }*/
+        /* Have something to return null like STORE*/
         return customerToReturn;
     }
 

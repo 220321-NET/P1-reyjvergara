@@ -42,37 +42,25 @@ public class FABL : IFABL
         return _repo.CreateReceipt(storeId, customerId, productId);
     }
 
-
-    ///<summary>
-    ///  FindCustomer is used for the login feature, checks database if email and password combination exists
-    ///</summary>
-    public Customer FindCustomer(string email, string password)
+    public async Task<Customer> FindCustomerAsync(string email, string password)
     {
-        return _repo.FindCustomer(email, password);
+        return await _repo.FindCustomerAsync(email, password);
     }
 
-    ///<summary>
-    ///  GetStoreFronts shows a list of all the storefronts 
-    ///</summary>
-    public List<StoreFront> GetStoreFronts()
+
+    public async Task<List<StoreFront>> GetAllStoreFrontsAsync()
     {
-        return _repo.GetAllStoreFronts();
+        return await _repo.GetAllStoreFrontsAsync();
     }
 
-    ///<summary>
-    ///  GetAllCustomers shows a list of all the customers
-    ///</summary>
-    public List<Customer> GetAllCustomers()
+    public async Task<List<Customer>> GetAllCustomersAsync()
     {
-        return _repo.GetAllCustomers();
+        return await _repo.GetAllCustomersAsync();
     }
 
-    ///<summary>
-    ///  GetProducts shows a list of all the products
-    ///</summary>
-    public List<Product> GetAllProducts()
+    public async Task<List<Product>> GetAllProductsAsync()
     {
-        return _repo.GetAllProducts();
+        return await _repo.GetAllProductsAsync();
     }
 
     ///<summary>
@@ -83,17 +71,17 @@ public class FABL : IFABL
         return _repo.AddProduct(productToAdd, quantity, storeId);
     }
 
-    public StoreFront? GetStoreByID(int storeId)
+    public async Task<StoreFront?> GetStoreByIDAsync(int storeId)
     {
-        return _repo.GetStoreByID(storeId);
+        return  await _repo.GetStoreByIDAsync(storeId);
     }
 
     ///<summary>
     ///  GetStoreProducts shows a list of all the products given storeId
     ///</summary>
-    public List<Product> GetStoreProducts(int storeId)
+    public async Task<List<Product>> GetStoreProductsAsync(int storeId)
     {
-        return _repo.GetStoreProducts(storeId);
+        return await _repo.GetStoreProductsAsync(storeId);
     }
 
     public void DeleteCustomer(Customer customerToDelete)

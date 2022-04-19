@@ -16,15 +16,18 @@ namespace WebAPI.Controllers
             _bl = bl;
         }
 
-        [HttpGet]
-        public List<Customer> Get()
+
+        [HttpGet("GetAll")]
+        public async Task<List<Customer>> GetAsync()
         {
-            return _bl.GetAllCustomers();
+            return await _bl.GetAllCustomersAsync();
         }
-        [HttpGet("Find Customer")]
-        public ActionResult<Customer> Get(string email, string password)
+
+
+        [HttpGet("Find")]
+        public async Task<ActionResult<Customer>> GetAsync(string email, string password)
         {
-            Customer customerToReturn = _bl.FindCustomer(email, password);
+            Customer customerToReturn = await _bl.FindCustomerAsync(email, password);
             if(customerToReturn != null)
             {
                 return Ok(customerToReturn);
@@ -32,7 +35,7 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult<Customer> Post([FromBody] Customer customerToCreate)
         {
             return Created("api/Customer", _bl.CreateCustomer(customerToCreate));
