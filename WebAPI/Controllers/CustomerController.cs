@@ -23,13 +23,13 @@ namespace WebAPI.Controllers
             return await _bl.GetAllCustomersAsync();
         }
 
-        [HttpGet("FindEmail")]
+        [HttpGet("FindEmail/{email}")]
         public async Task<Customer> GetAsync(string email)
         {
             return await _bl.FindCustomerByEmailAsync(email);
         }
 
-        [HttpGet("Find")]
+        [HttpGet("Find/{email}/{password}")]
         public async Task<ActionResult<Customer>> GetAsync(string email, string password)
         {
             Customer customerToReturn = await _bl.FindCustomerAsync(email, password);
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpPost("Create")]
+        [HttpPost("Create/{customerToCreate}")]
         public ActionResult<Customer> Post([FromBody] Customer customerToCreate)
         {
             return Created("api/Customer", _bl.CreateCustomer(customerToCreate));

@@ -10,7 +10,10 @@ public class Customer
 
     [Required]
     public int Id{get;set;}
-    public string Name
+    public string Name{get;set;}
+    public string Email{get;set;}
+    public string Password{get;set;}
+    /*public string Name
     {
         get => name;
 
@@ -46,7 +49,7 @@ public class Customer
             }
             password = value;
         }
-    }
+    }*/
 
     public override string ToString()
     {

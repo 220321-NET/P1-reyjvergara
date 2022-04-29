@@ -41,9 +41,7 @@ public class HttpSerivce
 
     public async Task<Customer> FindEmail(string email)
     {
-        Customer customer = new();
-        customer.Name = "temp";
-        customer.Password = "temp";
+        Customer customer = new Customer();
         try
         {
             customer = await JsonSerializer.DeserializeAsync<Customer>(await client.GetStreamAsync("Customer/FindEmail/{email}")) ?? new Customer();
@@ -55,17 +53,32 @@ public class HttpSerivce
         return customer;
     }
 
+    public async Task<Customer> FindEmailPass(string email, string password)
+    {
+        Customer customer = new();
+        customer.Name = "temp";
+        try
+        {
+            customer = await JsonSerializer.DeserializeAsync<Customer>(await client.GetStreamAsync("Customer/Find/{email}/{password}")) ?? new Customer();
+        }
+        catch(HttpRequestException)
+        {
+            Console.WriteLine("Cant' find email/password right");
+        }
+        return customer;
+    }
+
     public async void CreateCustomer(string name, string email, string password)
     {
         Customer newCust = new();
         newCust.Name = name;
         newCust.Email = email;
         newCust.Password = password;
-        string cust = JsonSerializer.Serialize(newCust);
-        StringContent content = new StringContent(cust, UnicodeEncoding.UTF8, "application/json");
+        string customerToCreate = JsonSerializer.Serialize(newCust);
+        StringContent content = new StringContent(customerToCreate, UnicodeEncoding.UTF8, "application/json");
         try
         {
-            HttpResponseMessage responseMessage = await client.PostAsync("Customer/Create", content);
+            HttpResponseMessage responseMessage = await client.PostAsync("Customer/Create{customerToCreate}", content);
         }
         catch(HttpRequestException)
         {

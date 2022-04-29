@@ -310,7 +310,7 @@ public class DBRepository : IRepository
         return customerToReturn;
     }
 
-    public async Task<Customer> ValidateEmail(string email)
+    public async Task<Customer> FindCustomerByEmailAsync(string email)
     {
         Customer customerToTest = new Customer();
         SqlConnection connection = new SqlConnection(_connectionString);

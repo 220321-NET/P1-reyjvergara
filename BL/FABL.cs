@@ -106,7 +106,7 @@ public class FABL : IFABL
     ///</summary>
     public async Task<Customer> FindCustomerByEmailAsync(string email)
     {
-        return await _repo.ValidateEmail(email);
+        return await _repo.FindCustomerByEmailAsync(email);
     }
 
     public int ValidateEmailPass(string email, string password)

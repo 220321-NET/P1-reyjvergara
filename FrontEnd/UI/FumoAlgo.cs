@@ -80,12 +80,25 @@ internal class FumoAlgoMenu
         string? name = Console.ReadLine();
         Console.WriteLine("enter in your email:");
         string? email = Console.ReadLine();
-
-        if(await _httpService.FindEmail(email) is not null)
+        List<Customer> users = await _httpService.GetAllCustomersAsync();
+        foreach(Customer x in users)
         {
-            Console.WriteLine("Email already exists...");
-            goto EnterCustomerInfo;
+            if(x.Email == email)
+            {
+                Console.WriteLine("email already exists");
+                goto EnterCustomerInfo;
+            }
         }
+        Console.WriteLine("Wow it broke out of the loop meaning it passed");
+        
+        //Customer temp = await _httpService.FindEmail(email);
+        //Console.WriteLine(temp);
+
+        // if(temp.Email != email)
+        // {
+        //     Console.WriteLine("Email already exists...");
+        //     goto EnterCustomerInfo;
+        // }
 
         Console.WriteLine("enter password:");
         string? password = Console.ReadLine();
@@ -107,6 +120,17 @@ internal class FumoAlgoMenu
         string? tempEmail = Console.ReadLine().Trim() ?? "";
         Console.WriteLine("Enter your password:");
         string? tempPassW = Console.ReadLine().Trim() ?? "";
+
+        if(await _httpService.FindEmailPass(tempEmail, tempPassW) is not null)
+        {
+            Console.WriteLine("Login successful");
+            Customer success = await _httpService.FindEmailPass(tempEmail, tempPassW);
+            await StoreMenu(success);
+        }
+        else
+        {
+            Console.WriteLine("No email/password combination exists");
+        }
         // if(_bl.ValidateEmailPass(tempEmail, tempPassW) != 1)
         // {
         //     Console.WriteLine("Incorrect Email/Password Combination entered");
@@ -130,15 +154,16 @@ internal class FumoAlgoMenu
         //     }while(true);
         // }
         // Customer success = _bl.FindCustomer(tempEmail, tempPassW);
-        Console.WriteLine("Log-in Successful");
+
         // Console.WriteLine("Logged in as " + success.Name);
         // StoreMenu(success);
     }
 
-    private void StoreMenu(Customer customer)
+    private async Task StoreMenu(Customer customer)
     {
         //List<StoreFront> allStores = _bl.GetStoreFronts();
         int storeChoice;
+        Console.WriteLine(customer.Email);
         // do
         // {
         //     Console.WriteLine("Select your store:");
@@ -262,7 +287,7 @@ internal class FumoAlgoMenu
 
     private async Task GetAllCustomersAsync()
     {
-        List<Customer> allCustomers = await new HttpSerivce().GetAllCustomersAsync();
+        List<Customer> allCustomers = await _httpService.GetAllCustomersAsync();
 
         foreach(Customer cus in allCustomers)
         {
