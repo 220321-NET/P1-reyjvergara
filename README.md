@@ -1,6 +1,6 @@
 # Store Application #
 
-## P1-reyjvergara ##
+## Project 1 ##
 
 ### Overview ###
 This application is based on a storefront that takes allows for users <br />
