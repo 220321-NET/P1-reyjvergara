@@ -13,3 +13,22 @@ As a customer in a store, I am able to buy products and place them in my cart, s
 
 #### Tech Stack ####
 C# Programming, SQL, xUnit Testing, ASP.NET Core Web API, ADO.NET, Git, DevOps, Azure Cloud, Docker
+
+### Features ###
+- Create User
+- Log in to User
+- Select Store
+- See products in selected store
+- Add product to cart
+To-do List:
+- Add more functionality to console
+- Modify function calls on client side to be less numerous
+- Incorperate Factory idea in client side function calls
+
+### Getting Started ###
+- `git clone https://github.com/220321-NET/P1-reyjvergara/`
+- Run `WebAPI.csproj` in Visual Studio to run the backend
+- Open folder of clone in Visual Studio Code
+- Use `dotnet run` to run the front end
+- Prompts will appear in the console of Visual Studio Code
+- These prompts allow for the reading/writing of database
